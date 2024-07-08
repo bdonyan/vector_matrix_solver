@@ -1,102 +1,97 @@
-```markdown
+# Vector Matrix Solver
 
-Vector Matrix Solver
 This project provides a C++ implementation for solving a system of linear equations using Gaussian elimination.
 
-Table of Contents
-Overview
-Project Structure
-Usage
-Compilation and Execution
-Examples
-Contributing
-License
-Overview
-This project implements a simple C++ linear algebra library with the following components:
+## Table of Contents
+- [Overview](#overview)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [Compilation and Execution](#compilation-and-execution)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
 
-Vector: A class for vector operations.
-Matrix: A class for matrix operations.
-LinearSolver: A class for solving systems of linear equations using Gaussian elimination.
-Project Structure
+## Overview
+This project implements a simple C++ linear algebra library with the following components:
+- **Vector**: A class for vector operations.
+- **Matrix**: A class for matrix operations.
+- **LinearSolver**: A class for solving systems of linear equations using Gaussian elimination.
+
+## Project Structure
 ```
 vector_matrix_solver/
 ├── src/
-│ ├── main.cpp
-│ ├── vector.cpp
-│ ├── matrix.cpp
-│ ├── solver.cpp
+│   ├── main.cpp
+│   ├── vector.cpp
+│   ├── matrix.cpp
+│   ├── solver.cpp
 ├── include/
-│ ├── vector.h
-│ ├── matrix.h
-│ ├── solver.h
+│   ├── vector.h
+│   ├── matrix.h
+│   ├── solver.h
 ├── CMakeLists.txt
 └── README.md
 ```
 
-Usage
-The project can be used to solve systems of linear equations of the form Ax = b, where A is a matrix and b is a vector.
+## Usage
+The project can be used to solve systems of linear equations of the form `Ax = b`, where `A` is a matrix and `b` is a vector.
 
-Compilation and Execution
-Prerequisites
-CMake
-g++ (GNU Compiler Collection)
-Steps
-Clone the Repository
-```sh
-git clone https://github.com/yourusername/vector_matrix_solver.git
-cd vector_matrix_solver
-```
+## Compilation and Execution
+### Prerequisites
+- CMake
+- g++ (GNU Compiler Collection)
 
-Create a Build Directory
-```sh
-mkdir build
-cd build
-```
+### Steps
+1. **Clone the Repository**
+   ```sh
+   git clone https://github.com/yourusername/vector_matrix_solver.git
+   cd vector_matrix_solver
+   ```
 
-Generate Build Files
-```sh
-cmake ..
-```
+2. **Create a Build Directory**
+   ```sh
+   mkdir build
+   cd build
+   ```
 
-Compile the Project
-```sh
-make
-```
+3. **Generate Build Files**
+   ```sh
+   cmake ..
+   ```
 
-Run the Executable
-```sh
-./solver
-```
+4. **Compile the Project**
+   ```sh
+   make
+   ```
 
-Examples
-Input
-Matrix 
-𝐴
-A:
+5. **Run the Executable**
+   ```sh
+   ./solver
+   ```
+
+## Examples
+### Input
+Matrix \( A \):
 ```
-2 1 -1
+2  1 -1
 -3 -1 2
--2 1 2
+-2  1 2
 ```
-Vector 
-𝑏
-b:
+Vector \( b \):
 ```
 8
 -11
 -3
 ```
 
-Output
-Solution vector 
-𝑥
-x:
+### Output
+Solution vector \( x \):
 ```
 2 3 -1
 ```
 
-Contributing
+## Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
-License
+## License
 This project is licensed under the MIT License.
