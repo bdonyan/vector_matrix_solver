@@ -1,0 +1,3 @@
+/mnt/c/Users/Brandon/Desktop/work_solver/build/CMakeFiles/solver.dir
+/mnt/c/Users/Brandon/Desktop/work_solver/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Brandon/Desktop/work_solver/build/CMakeFiles/rebuild_cache.dir
