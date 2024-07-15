@@ -1,8 +1,9 @@
 #include "solver.h"
 #include <cmath>
 #include <algorithm>
+#include <iostream>
 
-std::vector<double> LinearSolver::solve(const std::vector<std::vector<double>>& A, const std::vector<double>& b) {
+std::vector<double> LinearSolver::solve_direct(const std::vector<std::vector<double>>& A, const std::vector<double>& b) {
     int n = A.size();
     std::vector<std::vector<double>> augmented_matrix(n, std::vector<double>(n + 1));
 
@@ -41,6 +42,38 @@ std::vector<double> LinearSolver::solve(const std::vector<std::vector<double>>& 
         for (int k = i - 1; k >= 0; --k) {
             augmented_matrix[k][n] -= augmented_matrix[k][i] * x[i];
         }
+    }
+
+    return x;
+}
+
+std::vector<double> LinearSolver::solve_gauss_seidel(const std::vector<std::vector<double>>& A, const std::vector<double>& b) {
+    int n = A.size();
+    std::vector<double> x(n, 0.0); // Initial guess
+    std::vector<double> x_old(n, 0.0);
+    int max_iterations = 10000; // Increase iterations for better accuracy
+    double tolerance = 1e-10;
+
+    for (int iter = 0; iter < max_iterations; ++iter) {
+        for (int i = 0; i < n; ++i) {
+            double sum = b[i];
+            for (int j = 0; j < n; ++j) {
+                if (i != j) {
+                    sum -= A[i][j] * x[j];
+                }
+            }
+            x[i] = sum / A[i][i];
+        }
+
+        // Check for convergence
+        double norm = 0.0;
+        for (int i = 0; i < n; ++i) {
+            norm += std::pow(x[i] - x_old[i], 2);
+        }
+        if (std::sqrt(norm) < tolerance) {
+            break;
+        }
+        x_old = x;
     }
 
     return x;
