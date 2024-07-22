@@ -1,7 +1,10 @@
 #include "solver.h"
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <iterator>
 #include <cmath>
 #include <algorithm>
-#include <iostream>
 
 std::vector<double> LinearSolver::solve_direct(const std::vector<std::vector<double>>& A, const std::vector<double>& b) {
     int n = A.size();
@@ -77,4 +80,26 @@ std::vector<double> LinearSolver::solve_gauss_seidel(const std::vector<std::vect
     }
 
     return x;
+}
+
+std::pair<std::vector<std::vector<double>>, std::vector<double>> LinearSolver::read_matrix_from_file(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        throw std::runtime_error("Could not open file " + filename);
+    }
+
+    std::vector<std::vector<double>> A;
+    std::vector<double> b;
+    std::string line;
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        std::vector<double> row((std::istream_iterator<double>(iss)), std::istream_iterator<double>());
+        if (row.size() > 1) {
+            b.push_back(row.back());
+            row.pop_back();
+            A.push_back(row);
+        }
+    }
+
+    return {A, b};
 }
