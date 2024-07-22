@@ -62,19 +62,19 @@ The project can be used to solve systems of linear equations of the form `Ax = b
 
 4. **Run the Executable**
     ```sh
-    ./solver 0   # For direct solver
-    ./solver 1   # For Gauss-Seidel solver
+    ./solver ../input.txt 0   # For direct solver
+    ./solver ../input.txt 1   # For Gauss-Seidel solver
     ```
 
 ## Examples
 ```sh
-./solver 0
+./solver ../input.txt 0
 # Solution:
-# 2 3 4
+2 3 -1
 
-./solver 1
+./solver ../input.txt 1
 # Solution:
-# 2 3 4
+6.80688 1.3733 4.71023
 ```
 
 ## Contributing
