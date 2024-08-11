@@ -88,18 +88,102 @@ std::pair<std::vector<std::vector<double>>, std::vector<double>> LinearSolver::r
         throw std::runtime_error("Could not open file " + filename);
     }
 
-    std::vector<std::vector<double>> A;
-    std::vector<double> b;
+    int num_nodes = 0; // Total number of nodes
+    std::vector<std::vector<double>> G; // Conductance matrix
+    std::vector<double> b; // RHS vector
+
     std::string line;
     while (std::getline(file, line)) {
         std::istringstream iss(line);
-        std::vector<double> row((std::istream_iterator<double>(iss)), std::istream_iterator<double>());
-        if (row.size() > 1) {
-            b.push_back(row.back());
-            row.pop_back();
-            A.push_back(row);
+        std::string element_type;
+        int node1, node2;
+        double value;
+
+        iss >> element_type >> node1 >> node2 >> value;
+
+        // Update the number of nodes
+        num_nodes = std::max(num_nodes, std::max(node1, node2));
+
+        // Resize the matrix and vector if necessary
+        if (G.size() != num_nodes) {
+            G.resize(num_nodes, std::vector<double>(num_nodes, 0.0));
+            b.resize(num_nodes, 0.0);
+        }
+
+        if (element_type[0] == 'R') {
+            // Handle resistor
+            double conductance = 1.0 / value;
+            if (node1 != 0) {
+                G[node1-1][node1-1] += conductance;
+                if (node2 != 0) {
+                    G[node1-1][node2-1] -= conductance;
+                    G[node2-1][node2-1] += conductance;
+                    G[node2-1][node1-1] -= conductance;
+                }
+            } else {
+                G[node2-1][node2-1] += conductance;
+            }
+        } else if (element_type == "V") {
+            int voltage_index = num_nodes; // New row/column for the voltage source
+            G.resize(voltage_index + 1);
+            for (auto &row : G) {
+                row.resize(voltage_index + 1, 0.0);
+            }
+            b.resize(voltage_index + 1, 0.0);
+
+            if (node1 != 0) {
+                G[node1-1][voltage_index] = 1;
+                G[voltage_index][node1-1] = 1;
+            }
+
+            if (node2 != 0) {
+                G[node2-1][voltage_index] = -1;
+                G[voltage_index][node2-1] = -1;
+            }
+
+            b[voltage_index] = value;
         }
     }
+    
+    // // Print Conductance Matrix G
+    // std::cout << "Conductance Matrix G:\n";
+    // for (size_t i = 0; i < G.size(); ++i) {
+    //     for (size_t j = 0; j < G[i].size(); ++j) {
+    //         std::cout << G[i][j] << " ";
+    //     }
+    //     std::cout << std::endl;
+    // }
 
-    return {A, b};
+    // // Print RHS Vector b
+    // std::cout << "RHS Vector b:\n";
+    // for (size_t i = 0; i < b.size(); ++i) {
+    //     std::cout << b[i] << " ";
+    // }
+    // std::cout << std::endl;
+
+    return {G, b};
 }
+
+
+// REGULAR MATRIX SOLVER
+// std::pair<std::vector<std::vector<double>>, std::vector<double>> LinearSolver::read_matrix_from_file(const std::string& filename) {
+//     std::ifstream file(filename);
+//     if (!file.is_open()) {
+//         throw std::runtime_error("Could not open file " + filename);
+//     }
+
+//     std::vector<std::vector<double>> A;
+//     std::vector<double> b;
+//     std::string line;
+//     while (std::getline(file, line)) {
+//         std::istringstream iss(line);
+//         std::vector<double> row((std::istream_iterator<double>(iss)), std::istream_iterator<double>());
+//         if (row.size() > 1) {
+//             b.push_back(row.back());
+//             row.pop_back();
+//             A.push_back(row);
+//         }
+//     }
+
+//     return {A, b};
+// }

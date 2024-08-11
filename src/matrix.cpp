@@ -51,4 +51,15 @@ public:
             std::cout << std::endl;
         }
     }
+
+    void resize(int rows, int cols) {
+        data.resize(rows);
+        for (auto &row : data) {
+            row.resize(cols);
+        }
+    }
+
+    void insert(int i, int j, double value) {
+        data[i][j] += value;
+    }
 };

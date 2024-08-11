@@ -23,11 +23,15 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::cout << "Solution: ";
-    for (const auto& val : x) {
-        std::cout << val << " ";
+    std::cout << "Solution:\n";
+    for (size_t i = 0; i < x.size(); ++i) {
+        if (i < x.size() - 1) {
+            std::cout << "Voltage at Node " << i + 1 << ": " << x[i] << " V\n";
+        } else {
+            std::cout << "Current through Voltage Source: " << x[i] << " A\n";
+        }
     }
-    std::cout << std::endl;
 
+    std::cout << std::endl;
     return 0;
 }
