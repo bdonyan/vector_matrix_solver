@@ -12,10 +12,17 @@ This project provides a C++ implementation for solving a system of linear equati
 - [License](#license)
 
 ## Overview
-This project implements a simple C++ linear algebra library with the following components:
-- **Vector**: A class for vector operations.
-- **Matrix**: A class for matrix operations.
-- **LinearSolver**: A class for solving systems of linear equations using Gaussian elimination.
+
+This project is a C++ program designed to solve electrical circuits composed of resistors and voltage sources using conductance matrices and numerical methods like Gaussian Elimination and Gauss-Seidel iteration. The program reads circuit data from an input file, constructs the conductance matrix and right-hand side (RHS) vector, and then solves for the node voltages and current through the voltage sources.
+
+## Features
+
+- **Input Parsing**: Reads circuit data from a text file specifying resistors and voltage sources in a netlist format.
+- **Matrix Construction**: Constructs a conductance matrix (G matrix) and a RHS vector (b vector) representing the circuit equations.
+- **Numerical Solvers**:
+  - **Gaussian Elimination**: Direct solver that transforms the conductance matrix into an upper triangular matrix and performs back substitution to find the solution.
+  - **Gauss-Seidel Iteration**: Iterative solver that improves the solution estimate until convergence is achieved.
+- **Output**: The program outputs the node voltages and current through the voltage sources, with clear labeling of each quantity.
 
 ## Project Structure
 ```
@@ -66,15 +73,33 @@ The project can be used to solve systems of linear equations of the form `Ax = b
     ./solver ../input.txt 1   # For Gauss-Seidel solver
     ```
 
-## Examples
-```sh
-./solver ../input.txt 0
-# Solution:
-2 3 -1
+## Input File Format
 
-./solver ../input.txt 1
-# Solution:
-6.80688 1.3733 4.71023
+The input file should contain the following information:
+
+- Resistor entries in the format: `R <Node1> <Node2> <Resistance Value>`
+- Voltage source entries in the format: `V <Node1> <Node2> <Voltage Value>`
+
+### Examples
+
+```txt
+R 1 2 10
+R 2 0 4
+V 1 0 1.5
+```
+```
+Conductance Matrix G:
+0.1 -0.1 1
+-0.1 0.35 -1
+1 -1 0
+
+RHS Vector b:
+0 0 1.5
+
+Solution:
+Voltage at Node 1: 1.5 V
+Voltage at Node 2: 0.428571 V
+Current through Voltage Source: -0.107143 A
 ```
 
 ## Contributing
